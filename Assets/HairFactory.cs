@@ -129,4 +129,26 @@ public static class HairFactory
         }
         return hair;
     }
+
+    public static Hair GrowHairOnRow(int nStrands, int nVert, float interDis, float xDis)
+    {
+        Hair hair = new Hair(nStrands);
+        Vertex.L0 = interDis;
+        Vector3 startPos = new Vector3(0, nVert * interDis * 0.5f, 0);
+        for (int s = 0; s < nStrands; s++)
+        {
+            Strand strand = new Strand(nVert);
+            hair.Add(strand);
+            Vector3 pos = startPos;
+            Vertex particle = new Vertex(pos, 1.0f);
+            for (int v = 0; v < nVert; v++)
+            {
+                pos.y -= interDis;
+                particle.Position = pos;
+                strand.Add(particle);
+            }
+            startPos.x += xDis;
+        }
+        return hair;
+    }
 }
