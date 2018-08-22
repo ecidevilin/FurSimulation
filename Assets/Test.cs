@@ -10,7 +10,7 @@ public class Test : MonoBehaviour
     // Use this for initialization
     void Start ()
 	{
-        hair = HairFactory.GrowHair(500, 50);
+        hair = HairFactory.GrowHairOnSphere(500, 50, 1f, 1);
 	    Visualizer.Init(gameObject.GetComponent<MeshFilter>());
 	    sim = new FTL(hair);
 	    sim.AddForce(new Vector3(5, 0, 0));
