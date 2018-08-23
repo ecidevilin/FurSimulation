@@ -12,9 +12,8 @@ public class PBD : ISimulation
         
     }
 
-    public override void Update()
+    public override void Update(float dt)
     {
-        float TimeStep = 1.0f/100.0f;
         float Damping = 0.95f;
         float L0 = Vertex.L0;
         for (int s = 0; s < hair.Count; s++)
@@ -36,8 +35,8 @@ public class PBD : ISimulation
             {
                 Vertex vert = strand[v];
                 Vector3 acceleration = vert.Force/ vert.Mass;
-                vert.Velocity += TimeStep*acceleration;
-                vert.Position += TimeStep*vert.Velocity;
+                vert.Velocity += dt * acceleration;
+                vert.Position += dt * vert.Velocity;
                 vert.Force = Vector3.zero;
                 strand[v] = vert;
             }
@@ -64,8 +63,8 @@ public class PBD : ISimulation
             for (int v = 1; v < nVert; v++)
             {
                 Vertex vert = strand[v];
-                vert.Velocity = (vert.Position - vert.OldPosition)/TimeStep;
-                vert.Velocity += (v + 1 >= nVert ? Vector3.zero : Damping*(-strand[v + 1].Correction/TimeStep));
+                vert.Velocity = (vert.Position - vert.OldPosition)/ dt;
+                vert.Velocity += (v + 1 >= nVert ? Vector3.zero : Damping*(-strand[v + 1].Correction/ dt));
                 strand[v] = vert;
             }
         }

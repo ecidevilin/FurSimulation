@@ -7,10 +7,11 @@ public class Test : MonoBehaviour
 {
     private ISimulation sim;
     private Hair hair;
+    public MeshFilter ScalpMF;
     // Use this for initialization
     void Start ()
 	{
-        hair = HairFactory.GrowHairOnSphere(500, 50, 1f, 1);
+        hair = HairFactory.GrowHairOnDefinedPos(50, 1f, new List<Vector3>(ScalpMF.sharedMesh.vertices), 0.01f);
 	    Visualizer.Init(gameObject.GetComponent<MeshFilter>());
 	    sim = new FTL(hair);
 	    sim.AddForce(new Vector3(5, 0, 0));
@@ -29,7 +30,7 @@ public class Test : MonoBehaviour
                 Vector3 force = new Vector3(10 * Mathf.Sin(frame), 0, 10 * Mathf.Cos(frame));
                 sim.AddForce(force);
             }
-            sim.Update();
+            sim.Update(Time.deltaTime);
         }
 	}
 }

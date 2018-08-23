@@ -109,7 +109,7 @@ public static class HairFactory
         return hair;
     }
 
-    public static Hair GrowHairOnDefinedPos(int nVert, float interDis, List<Vector3> positions)
+    public static Hair GrowHairOnDefinedPos(int nVert, float interDis, List<Vector3> positions, float mass)
     {
         int nStrands = positions.Count;
         Hair hair = new Hair(nStrands);
@@ -119,7 +119,7 @@ public static class HairFactory
             Strand strand = new Strand(nVert);
             hair.Add(strand);
             Vector3 pos = positions[w];
-            Vertex particle = new Vertex(pos, 1.0f);
+            Vertex particle = new Vertex(pos, mass);
             for (int v = 0; v < nVert; v++)
             {
                 pos.y -= Vertex.L0;

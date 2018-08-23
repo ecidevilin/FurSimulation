@@ -13,9 +13,8 @@ public class FTL : ISimulation
 
     }
 
-    public override void Update()
+    public override void Update(float dt)
     {
-        float TimeStep = 1.0f/125.0f;
         float Damping = 0.9f;
         float L0 = Vertex.L0;
 
@@ -27,14 +26,14 @@ public class FTL : ISimulation
             {
                 Vertex vert = strand[v];
                 vert.OldPosition = vert.Position;
-                vert.Position = vert.OldPosition + TimeStep*vert.Velocity + TimeStep*TimeStep*vert.Force;
+                vert.Position = vert.OldPosition + dt * vert.Velocity + dt * dt * vert.Force;
 
                 Vertex pre = strand[v - 1];
                 Vector3 dir = Vector3.Normalize(vert.Position - pre.Position);
                 Vector3 pBackup = vert.Position;
                 vert.Position = pre.Position + dir*L0;
-                vert.Velocity = (vert.Position - vert.OldPosition)/TimeStep;
-                vert.Velocity += (v + 1 >= nVert) ? Vector3.zero : Damping*(-strand[v + 1].Correction/TimeStep);
+                vert.Velocity = (vert.Position - vert.OldPosition)/ dt;
+                vert.Velocity += (v + 1 >= nVert) ? Vector3.zero : Damping*(-strand[v + 1].Correction/ dt);
                 vert.Correction = vert.Position - pBackup;
                 vert.Force = Vector3.zero;
                 strand[v] = vert;

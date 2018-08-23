@@ -6,17 +6,20 @@ using Hair = System.Collections.Generic.List<System.Collections.Generic.List<Ver
 public abstract class ISimulation
 {
     protected Hair hair;
+    protected int nVert;
+    protected int nStrand;
 
     protected ISimulation(Hair h)
     {
         hair = h;
+        nStrand = h.Count;
+        nVert = h[0].Count;
     }
 
     public void AddForce(Vector3 force)
     {
         foreach (var s in hair)
         {
-            int nVert = s.Count;
             for (int v = 0; v < nVert; v++)
             {
                 Vertex vert = s[v];
@@ -26,5 +29,5 @@ public abstract class ISimulation
         }
     }
 
-    public abstract void Update();
+    public abstract void Update(float dt);
 }
